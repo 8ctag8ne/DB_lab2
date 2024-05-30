@@ -1,0 +1,138 @@
+@model DB_lab2.Contest
+@{
+    IEnumerable<int> SelectedProblems = ViewData["SelectedProblems"] as IEnumerable<int>;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+<script>
+    var problemIndex = 0;
+
+        function generateProblemOptions(selectedProblemId) 
+        {
+            var options = '';
+            @foreach (var problem in ViewBag.Problems)
+            {
+                <text>
+                    var problemId = "@problem.Value";
+                    var problemText = "@problem.Text";
+                    var selectedAttribute = (problemId == selectedProblemId) ? 'selected' : '';
+                    options += `<option value="${problemId}" ${selectedAttribute}>${problemText}</option>`;
+                </text>
+            }
+            return options;
+        }
+
+        function addProblem(problemId) {
+            var problemSelect = `<div class="form-group row" id="problem_${problemIndex}">
+                                <label for="problems_${problemIndex}__ProblemId" class="control-label">Задача</label>
+                                <div class="col">
+                                    <select id="problems_${problemIndex}__ProblemId" name="problems[${problemIndex}]" class="form-control">
+                                        <option value="-1" hidden> </option>
+                                        ${generateProblemOptions(problemId)}
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-danger mb-2" onclick="removeProblem(${problemIndex})">Видалити</button>
+                                </div>
+                            </div>`;
+            $('#problem-container').append(problemSelect);
+            console.log("added problem with id "+problemId);
+            problemIndex++;
+        }
+
+        function removeProblem(index) 
+        {
+            var problemElement = document.getElementById(`problem_${index}`);
+            if (problemElement) 
+            {
+                // Hide the element
+                // Set ProblemId to -1 to mark it for removal
+                var problemIdSelect = problemElement.querySelector(`#problems_${index}__ProblemId`);
+                if (problemIdSelect) {
+                    problemIdSelect.value = -1;
+                }
+                problemElement.style.display = 'none';
+            }
+        }
+</script>
+
+<h4>Редагувати змагання</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ContestId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DifficultyLevel" class="control-label"></label>
+                <input asp-for="DifficultyLevel" class="form-control" />
+                <span asp-validation-for="DifficultyLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <select asp-for="CreatedBy" class="form-control" asp-items="ViewBag.CreatedBy"></select>
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Editorial" class="control-label"></label>
+                <input asp-for="Editorial" class="form-control" />
+                <span asp-validation-for="Editorial" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime" class="control-label"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndTime" class="control-label"></label>
+                <input asp-for="EndTime" class="form-control" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+
+            <div id="problem-container">
+                @if(SelectedProblems != null && SelectedProblems.Count() > 0)
+                {
+                    @foreach(var selectedProblem in SelectedProblems)
+                    {
+                        <script>
+                            addProblem(@selectedProblem);
+                        </script>
+                    }
+                }
+                <!-- Problems will be added here -->
+            </div>
+            <div class="form-group">
+                <button type="button" id="add-problem" class="btn btn-success my-2" onClick="addProblem(-1)">Додати задачу</button>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary my-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

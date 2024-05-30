@@ -1,0 +1,76 @@
+@model DB_lab2.Submission
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Редагувати посилку</title>
+</head>
+<body>
+
+<h4>Редагувати посилку</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SubmissionId" />
+            <div class="form-group">
+                <label asp-for="GroupId" class="control-label"></label>
+                <select asp-for="GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+                <span asp-validation-for="GroupId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContestId" class="control-label"></label>
+                <select asp-for="ContestId" class="form-control" asp-items="ViewBag.ContestId"></select>
+                <span asp-validation-for="ContestId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubmittedBy" class="control-label"></label>
+                <select asp-for="SubmittedBy" class="form-control" asp-items="ViewBag.SubmittedBy"></select>
+                <span asp-validation-for="SubmittedBy" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProblemId" class="control-label"></label>
+                <select asp-for="ProblemId" class="form-control" asp-items="ViewBag.ProblemId"></select>
+                <span asp-validation-for="ProblemId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Result" class="control-label"></label>
+                <input asp-for="Result" class="form-control" />
+                <span asp-validation-for="Result" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Verdict" class="control-label"></label>
+                <select asp-for="Verdict" class="form-control" asp-items="ViewBag.Verdict"></select>
+                <span asp-validation-for="Verdict" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SubmittedAt" class="control-label"></label>
+                <input asp-for="SubmittedAt" class="form-control" />
+                <span asp-validation-for="SubmittedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Language" class="control-label"></label>
+                <select asp-for="Language" class="form-control" asp-items="ViewBag.Language"></select>
+                <span asp-validation-for="Language" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary my-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr class="table-dark">
+            <th>
+                #
+            </th>
+            <th>
+                Опис
+            </th>
+            <th>
+                Сторінка
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                1
+            </td>
+            <td>
+                Список адміністраторів, які знаходяться у групі Х
+            </td>
+            <td class="justify-content-center">
+                <a class="btn btn-warning w-100" asp-controller="User" asp-action="Query1">До запиту</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                2
+            </td>
+            <td>
+                Список задач, серед тегів яких присутній Х
+            </td>
+            <td>
+                <a class="btn btn-warning w-100" asp-controller="Problem" asp-action="Query2">До запиту</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                3
+            </td>
+            <td>
+                Список задач, розв'язаних на змаганні Х
+            </td>
+            <td>
+                <a class="btn btn-warning w-100" asp-controller="Problem" asp-action="Query3">До запиту</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                4
+            </td>
+            <td>
+                Список користувачів, які розв'язували задачу Х
+            </td>
+            <td>
+                <a class="btn btn-warning w-100" asp-controller="User" asp-action="Query4">До запиту</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                5
+            </td>
+            <td>
+                Список змагань, у яких користувач Х брав участь
+            </td>
+            <td>
+                <a class="btn btn-warning w-100" asp-controller="Contest" asp-action="Query5">До запиту</a>
+            </td>
+        </tr>
+        <tr>
+            <td><p></p></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>
+                6
+            </td>
+            <td>
+                Список користувачів, які є принаймні у тих групах, що й користувач Х
+            </td>
+            <td>
+                <a class="btn btn-warning w-100" asp-controller="User" asp-action="Query6">До запиту</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                7
+            </td>
+            <td>
+                Список користувачів, які є у тих і тільки тих групах, що й користувач Х
+            </td>
+            <td>
+                <a class="btn btn-warning w-100" asp-controller="User" asp-action="Query7">До запиту</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                8
+            </td>
+            <td>
+                Список користувачів, які є в усіх тих і тільки тих групах, що й користувач Х
+            </td>
+            <td>
+                <a class="btn btn-warning w-100" asp-controller="User" asp-action="Query8">До запиту</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

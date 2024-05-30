@@ -1,0 +1,79 @@
+@model IEnumerable<DB_lab2.User>
+
+@{
+    var Group = ViewData["Group"] as DB_lab2.Group;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Query1</title>
+</head>
+<body>
+<form method="get" class="mb-3">
+    <div class="row">
+        <div class="col">
+            <select name="GroupId" class ="form-control" asp-items="ViewBag.GroupId"></select>
+        </div>
+        <div class="col-auto">
+            <input type="submit" class="btn btn-success" value="Пошук"/>
+        </div>
+    </div>
+</form>
+@if(Group == null)
+{
+    <p>
+        Оберіть групу, список адміністраторів у якій бажаєте побачити
+    </p>
+}
+@if(Model != null && Model.Count() > 0)
+{
+    <p>
+        Нижче наведено список адміністраторів, які знаходяться у групі "@Group.Name", яка має ідентифікатор @Group.GroupId
+    </p>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr class="table-dark">
+                <th>
+                    @Html.DisplayNameFor(model => model.Login)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PasswordHash)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsAdmin)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PasswordHash)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+} else
+@if(Group != null && Model.Count() == 0)
+{
+    <h5>
+        У цій групі відсутні адміністратори.
+    </h5>
+}
+</body>
+</html>

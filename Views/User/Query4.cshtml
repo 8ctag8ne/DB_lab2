@@ -1,0 +1,79 @@
+@model IEnumerable<DB_lab2.User>
+
+@{
+    var Problem = ViewData["Problem"] as DB_lab2.Problem;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Query4</title>
+</head>
+<body>
+<form method="get" class="mb-3">
+    <div class="row">
+        <div class="col">
+            <select name="ProblemId" class ="form-control" asp-items="ViewBag.ProblemId"></select>
+        </div>
+        <div class="col-auto">
+            <input type="submit" class="btn btn-success" value="Пошук"/>
+        </div>
+    </div>
+</form>
+@if(Problem == null)
+{
+    <p>
+        Оберіть задачу, для якої бажаєте отримати список користувачів, які намагалися її розв'язати
+    </p>
+}
+@if(Model != null && Model.Count() > 0)
+{
+    <p>
+        Нижче наведено список користувачів, які намаглися розв'язати задачу "@Problem.Name", яка має ідентифікатор @Problem.ProblemId
+    </p>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr class="table-dark">
+                <th>
+                    @Html.DisplayNameFor(model => model.Login)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PasswordHash)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Rating)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsAdmin)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Login)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PasswordHash)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsAdmin)
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+} else
+@if(Problem != null && Model.Count() == 0)
+{
+    <h5>
+        Цю задачу ніхто не намагався розв'язати.
+    </h5>
+}
+</body>
+</html>

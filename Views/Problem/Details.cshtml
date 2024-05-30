@@ -1,0 +1,69 @@
+@model DB_lab2.Problem
+@{
+    IEnumerable<DB_lab2.Tag> Tags = ViewData["Tags"] as IEnumerable<DB_lab2.Tag>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+
+<div>
+    <h4>Problem</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DifficultyLevel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DifficultyLevel)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Editorial)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Editorial)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TestFile)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TestFile)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedByNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByNavigation.UserId)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if(Tags != null &&Tags.Count() > 0)
+    {
+        <h4>Категорії</h4>
+        @await Html.PartialAsync("~/Views/Tag/Index.cshtml", Tags)
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ProblemId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>

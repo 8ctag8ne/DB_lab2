@@ -1,0 +1,183 @@
+@model DB_lab2.Group
+@{
+    IEnumerable<int> SelectedUsers = ViewData["SelectedUsers"] as IEnumerable<int>;
+    IEnumerable<int> SelectedContests = ViewData["SelectedContests"] as IEnumerable<int>;
+    ViewData["Title"] = "Edit Group";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+</head>
+<body>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.6.0.min.js"></script>
+    <script>
+         var userIndex = 0;
+        var contestIndex = 0;
+
+        function generateUserOptions(selectedUserId) 
+        {
+            var options = '';
+            @foreach (var user in ViewBag.Users)
+            {
+                <text>
+                    var userId = "@user.Value";
+                    var userText = "@user.Text";
+                    var selectedAttribute = (userId == selectedUserId) ? 'selected' : '';
+                    options += `<option value="${userId}" ${selectedAttribute}>${userText}</option>`;
+                </text>
+            }
+            return options;
+        }
+
+        function generateContestOptions(selectedContestId) 
+        {
+            var options = '';
+            @foreach (var contest in ViewBag.Contests)
+            {
+                <text>
+                    var contestId = "@contest.Value";
+                    var contestText = "@contest.Text";
+                    var selectedAttribute = (contestId == selectedContestId) ? 'selected' : '';
+                    options += `<option value="${contestId}" ${selectedAttribute}>${contestText}</option>`;
+                </text>
+            }
+            return options;
+        }
+
+        function addUser(userId) {
+            var userSelect = `<div class="form-group row" id="user_${userIndex}">
+                                <label for="users_${userIndex}__UserId" class="control-label">Користувач</label>
+                                <div class="col">
+                                    <select id="users_${userIndex}__UserId" name="users[${userIndex}]" class="form-control">
+                                        <option value="-1" hidden> </option>
+                                        ${generateUserOptions(userId)}
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-danger mb-2" onclick="removeUser(${userIndex})">Видалити</button>
+                                </div>
+                            </div>`;
+            $('#user-container').append(userSelect);
+            console.log("added user with id "+userId);
+            userIndex++;
+        }
+
+        function removeUser(index) 
+        {
+            var userElement = document.getElementById(`user_${index}`);
+            if (userElement) 
+            {
+                // Hide the element
+                // Set UserId to -1 to mark it for removal
+                var userIdSelect = userElement.querySelector(`#users_${index}__UserId`);
+                if (userIdSelect) {
+                    userIdSelect.value = -1;
+                }
+                userElement.style.display = 'none';
+            }
+        }
+
+        function addContest(contestId) {
+            var contestSelect = `<div class="form-group row" id="contest_${contestIndex}">
+                                <label for="contests_${contestIndex}__ContestId" class="control-label">Змагання</label>
+                                <div class="col">
+                                    <select id="contests_${contestIndex}__ContestId" name="contests[${contestIndex}]" class="form-control">
+                                        <option value="-1" hidden> </option>
+                                        ${generateContestOptions(contestId)}
+                                    </select>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="button" class="btn btn-danger mb-2" onclick="removeContest(${contestIndex})">Видалити</button>
+                                </div>
+                            </div>`;
+            $('#contest-container').append(contestSelect);
+            console.log("added contest with id "+contestId);
+            contestIndex++;
+        }
+
+        function removeContest(index) 
+        {
+            var contestElement = document.getElementById(`contest_${index}`);
+            if (contestElement) 
+            {
+                // Hide the element
+                // Set ContestId to -1 to mark it for removal
+                var contestIdSelect = contestElement.querySelector(`#contests_${index}__ContestId`);
+                if (contestIdSelect) {
+                    contestIdSelect.value = -1;
+                }
+                contestElement.style.display = 'none';
+            }
+        }
+    </script>
+
+<h4>Редагувати дані про групу</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="GroupId" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CreatedBy" class="control-label"></label>
+                <select asp-for="CreatedBy" class="form-control" asp-items="ViewBag.Users"></select>
+                <span asp-validation-for="CreatedBy" class="text-danger"></span>
+            </div>
+            <div id="user-container" class="mt-3">
+                @if(SelectedUsers != null && SelectedUsers.Count() > 0)
+                {
+                    @foreach(var selectedUser in SelectedUsers)
+                    {
+                        <script>
+                            addUser(@selectedUser);
+                        </script>
+                    }
+                }
+                <!-- Users will be added here -->
+            </div>
+            <div class="form-group">
+                <button type="button" id="add-user" class="btn btn-success my-2" onClick="addUser(-1)">Додати користувача</button>
+            </div>
+
+            <div id="contest-container">
+                @if(SelectedContests != null && SelectedContests.Count() > 0)
+                {
+                    @foreach(var selectedContest in SelectedContests)
+                    {
+                        <script>
+                            addContest(@selectedContest);
+                        </script>
+                    }
+                }
+            </div>
+            <div class="form-group">
+                <button type="button" id="add-contest" class="btn btn-success my-2" onClick="addContest(-1)">Додати змагання</button>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Зберегти" class="btn btn-primary my-2" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+</body>
+</html>

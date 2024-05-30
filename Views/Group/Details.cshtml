@@ -1,0 +1,58 @@
+@model DB_lab2.Group
+
+@{
+    IEnumerable<DB_lab2.User> Users = ViewData["Users"] as IEnumerable<DB_lab2.User>;
+    IEnumerable<DB_lab2.Contest> Contests = ViewData["Contests"] as IEnumerable<DB_lab2.Contest>;
+}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Інформація</title>
+</head>
+<body>
+
+<div>
+    <h4>Інформація про групу</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedByNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByNavigation.UserId)
+        </dd>
+    </dl>
+</div>
+<div>
+    @if(Users != null &&Users.Count() > 0)
+    {
+        <h4>Користувачі</h4>
+        @await Html.PartialAsync("~/Views/User/Index.cshtml", Users)
+    }
+</div>
+<div>
+    @if(Contests != null && Contests.Count() > 0)
+    {
+        <h4>Змагання</h4>
+        @await Html.PartialAsync("~/Views/Contest/Index.cshtml", Contests)
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.GroupId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+</body>
+</html>
